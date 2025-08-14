@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guest Check-in/out</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+    window.addEventListener('DOMContentLoaded', function () {
+        const flashMessage = "{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}";
+        if (flashMessage) {
+            alert(flashMessage);
+        }
+    });
+</script>
+
+</head>
+<body>
+<div class="top-bar">
+    {% if session.logged_in %}
+        <a href="{{ url_for('view_log') }}" class="login-btn">View Log</a>
+        <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+    {% endif %}
+</div>
+
+    <div class="container">
+        <h1>Guest Check-in / Check-out</h1>
+        
+        <!-- {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for msg in messages %}
+                        <li>{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %} -->
+
+        <form method="POST" action="/check-in">
+            <h2>Check In</h2>
+            <input type="text" name="guest_name" style="text-transform: capitalize;" placeholder="Guest Name" maxlength="32">
+            <input type="text" name="reason_for_visit" placeholder="Reason for Visit" maxlength="64">
+            <input type="text" name="who_meeting" placeholder="Who are you meeting?" maxlength="32">
+            <button type="submit">Check In</button>
+        </form>
+
+        <form method="POST" action="/check-out">
+            <h2>Check Out</h2>
+            <input type="text" name="guest_name" style="text-transform: capitalize;" placeholder="Guest Name" maxlength="32">
+            <button type="submit">Check Out</button>
+        </form>
+    </div>
+</body>
+</html>

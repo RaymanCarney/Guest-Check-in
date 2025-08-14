@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Check-in Log</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('index') }}" class="login-btn">Home</a>
+        <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
+    </div>
+    <div class="container">
+        <h1>Check-in Log</h1>
+
+        <form method="GET" action="/view-log">
+            <input type="text" name="search" placeholder="Search by guest name or date (YYYY-MM-DD)">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if show_all %}
+        <form method="GET" action="/view-log">
+            <button type="submit">Show Less Logs</button>
+        </form>
+        {% else %}
+        <form method="GET" action="/view-log">
+            <input type="hidden" name="show_all" value="1">
+            <button type="submit">Show All Logs</button>
+        </form>
+        {% endif %}
+
+        {% if rows %}
+        <table>
+            <tr>
+                <th>Guest Name</th>
+                <th>Reason for Visit</th>
+                <th>Who Meeting</th>
+                <th>Check In Time</th>
+                <th>Status</th>
+                <th>Check Out Time</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                {% for item in row %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No entries found.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
